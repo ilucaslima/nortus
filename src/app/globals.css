@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
-/* Reset CSS */
-* {
+/* Reset CSS - Compatible with Tailwind v4 */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -37,7 +37,6 @@ ul {
 a {
   background-color: transparent;
   text-decoration: none;
-  color: inherit;
 }
 
 a:hover {
@@ -103,7 +102,6 @@ textarea {
   --color-aside-header: #20273e;
   --color-card-bg: #171d30;
   --color-primary: #1876d2;
-  --color-chat-blue: #1876d2;
   --color-chat-gray: #3f4859;
   --color-status-progress: #d2b843;
   --color-urgent: #ba1a1a;
@@ -111,6 +109,11 @@ textarea {
   --color-low: #e0f7ff;
   --color-green: #3f4859;
   --color-green-strong: #3f4859;
+  --color-font-span: #e3e3e3;
+
+  --color-border: #737677;
+
+  --color-span: #c9c9c9;
 }
 
 body {
