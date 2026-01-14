@@ -99,6 +99,8 @@ textarea {
   --font-inter: Inter, system-ui, sans-serif;
   --font-montserrat: Montserrat, sans-serif;
 
+  --color-dashboard: var(--background);
+
   --color-aside-header: #20273e;
   --color-card-bg: #171d30;
   --color-primary: #1876d2;
