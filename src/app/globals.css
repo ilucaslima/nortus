@@ -118,6 +118,8 @@ textarea {
   --color-icons: #2b3248;
 
   --color-span: #c9c9c9;
+  --color-card-border: #f6f8fc;
+  --color-table: #23283a;
 }
 
 body {
