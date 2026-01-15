@@ -14,10 +14,23 @@ import {
   SearchIcon,
 } from "@/components/ui/Icons";
 import { useTicketFilters } from "@/hooks/useTicketFilters";
-import { useTickets } from "@/hooks/useTickets";
+import { Ticket } from "@/hooks/useTickets";
 
-export default function Dashboard() {
-  const { tickets, details, loading, error, refetch } = useTickets();
+interface DashboardProps {
+  tickets: Ticket[];
+  details: any;
+  loading: boolean;
+  error: string | null;
+  refetch: () => void;
+}
+
+export default function Dashboard({
+  tickets,
+  details,
+  loading,
+  error,
+  refetch,
+}: DashboardProps) {
   const { filters, filteredTickets, updateFilter } = useTicketFilters(tickets);
 
   return (
@@ -79,9 +92,10 @@ export default function Dashboard() {
               onChange={(e) => updateFilter("priority", e.target.value)}
             >
               <option value="">Todas as prioridades</option>
-              <option value="baixa">Baixa</option>
-              <option value="media">Média</option>
-              <option value="urgente">Urgente</option>
+              <option value="Baixa">Baixa</option>
+              <option value="Média">Média</option>
+              <option value="Alta">Alta</option>
+              <option value="Urgente">Urgente</option>
             </select>
           </div>
 

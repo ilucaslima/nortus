@@ -11,6 +11,7 @@ interface TicketsTableProps {
 const priorityStyles = {
   Baixa: "bg-low text-dashboard",
   Média: "bg-medium text-dashboard",
+  Alta: "bg-high text-white",
   Urgente: "bg-urgent text-white",
 };
 
@@ -23,6 +24,7 @@ const statusStyles = {
 const priorityLabels = {
   Baixa: "Baixa",
   Média: "Média",
+  Alta: "Alta",
   Urgente: "Urgente",
 };
 

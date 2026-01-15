@@ -17,13 +17,17 @@ export function useTicketFilters(tickets: Ticket[]) {
   });
 
   const filteredTickets = useMemo(() => {
+    if (!tickets || tickets.length === 0) {
+      return [];
+    }
+
     return tickets.filter((ticket) => {
       const searchLower = filters.search.toLowerCase();
 
       const matchesSearch =
         !filters.search ||
         [ticket.ticketId, ticket.client, ticket.subject].some((field) =>
-          field.toLowerCase().includes(searchLower)
+          field?.toLowerCase().includes(searchLower)
         );
 
       const statusMap: Record<string, string> = {
@@ -35,9 +39,10 @@ export function useTicketFilters(tickets: Ticket[]) {
         !filters.status || ticket.status === statusMap[filters.status];
 
       const priorityMap: Record<string, string> = {
-        baixa: "Baixa",
-        media: "Média",
-        urgente: "Urgente",
+        Baixa: "Baixa",
+        Média: "Média",
+        Alta: "Alta",
+        Urgente: "Urgente",
       };
       const matchesPriority =
         !filters.priority || ticket.priority === priorityMap[filters.priority];
@@ -45,14 +50,20 @@ export function useTicketFilters(tickets: Ticket[]) {
       const matchesResponsible =
         !filters.responsible ||
         ticket.responsible
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(filters.responsible.toLowerCase());
 
       return (
         matchesSearch && matchesStatus && matchesPriority && matchesResponsible
       );
     });
-  }, [tickets, filters]);
+  }, [
+    tickets,
+    filters.search,
+    filters.status,
+    filters.priority,
+    filters.responsible,
+  ]);
 
   const updateFilter = (key: keyof Filters, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));

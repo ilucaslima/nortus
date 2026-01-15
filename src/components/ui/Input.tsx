@@ -3,7 +3,7 @@ import { EyeIcon, EyeSlashIcon } from "./Icons";
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
-  label: string;
+  label?: string;
   required?: boolean;
   helperText?: string;
   error?: string;

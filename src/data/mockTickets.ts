@@ -1,7 +1,7 @@
 export const mockTickets = [
   {
     id: "TK001",
-    priority: "urgente" as const,
+    priority: "Urgente" as const,
     client: {
       name: "Ricardo Leite",
       email: "ricardo@email.com",
@@ -13,7 +13,7 @@ export const mockTickets = [
   },
   {
     id: "TK002",
-    priority: "media" as const,
+    priority: "Média" as const,
     client: {
       name: "Maria Silva",
       email: "mariasilva@email.com",
@@ -25,7 +25,7 @@ export const mockTickets = [
   },
   {
     id: "TK003",
-    priority: "baixa" as const,
+    priority: "Baixa" as const,
     client: {
       name: "João Costa",
       email: "costajoao@email.com",
@@ -37,7 +37,7 @@ export const mockTickets = [
   },
   {
     id: "TK004",
-    priority: "urgente" as const,
+    priority: "Urgente" as const,
     client: {
       name: "Residencial Premium",
       email: "rpremium@email.com",
@@ -49,7 +49,7 @@ export const mockTickets = [
   },
   {
     id: "TK006",
-    priority: "media" as const,
+    priority: "Média" as const,
     client: {
       name: "Família Total",
       email: "familiatotal@email.com",

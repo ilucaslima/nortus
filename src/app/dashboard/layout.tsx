@@ -1,14 +1,16 @@
 "use client";
 
+import { Modal, NewTicketForm } from "@/components";
 import {
   CalculatorIcon,
   ChatIcon,
   GestaoIcon,
   KpisIcon,
+  PlusIcon,
 } from "@/components/ui/Icons";
+import { useTickets } from "@/hooks/useTickets";
 import { usePathname, useRouter } from "next/navigation";
-
-import Cookies from "js-cookie";
+import Dashboard from "./page";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -17,6 +19,18 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const {
+    tickets,
+    details,
+    loading,
+    error,
+    refetch,
+    isModalOpen,
+    isCreating,
+    openModal,
+    closeModal,
+    createTicket,
+  } = useTickets();
 
   const menuItems = [
     { name: "Dashboard", href: "/dashboard", icon: <KpisIcon /> },
@@ -40,11 +54,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const getCurrentPageName = () => {
     const currentItem = menuItems.find((item) => item.href === pathname);
     return currentItem ? currentItem.name : "Dashboard";
-  };
-
-  const handleLogout = () => {
-    Cookies.remove("auth-token");
-    router.push("/");
   };
 
   return (
@@ -78,31 +87,52 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </a>
           ))}
         </nav>
-
-        {/* <div className="absolute bottom-0 w-full p-4">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center py-2 text-gray-300 hover:bg-red-600 hover:text-white rounded-lg transition-colors duration-200"
-          >
-            <span className="text-xl">🚪</span>
-          </button>
-        </div> */}
       </div>
 
       {/* Main Content */}
       <div className="ml-16">
         <header className="bg-aside-header shadow-sm">
-          <div className="flex items-center justify-between h-16 px-10">
+          <div className="flex items-center justify-between h-20 px-10">
             <div className="flex items-center">
               <h1 className="text-xl font-montserrat font-semibold text-white">
                 {getCurrentPageName()}
               </h1>
             </div>
+            <div className="flex items-center">
+              <button
+                onClick={openModal}
+                className="flex items-center gap-2 py-4 shadow-primary shadow-md bg-primary hover:bg-primary/90 text-white px-4 rounded-full font-medium"
+              >
+                <PlusIcon width={16} height={16} />
+                <p>Novo Ticket</p>
+              </button>
+            </div>
           </div>
         </header>
 
-        <main className="flex-1 p-10">{children}</main>
+        <main className="flex-1 p-10">
+          {pathname === "/dashboard" ? (
+            <Dashboard
+              tickets={tickets}
+              details={details}
+              loading={loading}
+              error={error}
+              refetch={refetch}
+            />
+          ) : (
+            children
+          )}
+        </main>
       </div>
+
+      {/* Modal de Novo Ticket */}
+      <Modal isOpen={isModalOpen} onClose={closeModal} title="Novo Ticket">
+        <NewTicketForm
+          onSubmit={createTicket}
+          onCancel={closeModal}
+          isLoading={isCreating}
+        />
+      </Modal>
     </div>
   );
 }
