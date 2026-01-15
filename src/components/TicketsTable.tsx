@@ -83,7 +83,7 @@ export function TicketsTable({ tickets }: TicketsTableProps) {
             {paginatedItems.map((ticket) => (
               <tr key={ticket.id} className="border-b border-border/10 text-sm">
                 <td className="py-4 px-6 font-montserrat font-medium">
-                  TK{ticket.id.slice(-3).toUpperCase()}
+                  {ticket.ticketId}
                 </td>
                 <td className="py-4 px-6">
                   <span

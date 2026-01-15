@@ -1,43 +1,48 @@
 "use client";
 
-import { ErrorMessage, LoadingSpinner, TicketsTable } from "@/components";
-import { CalculatorIcon, SearchIcon } from "@/components/ui/Icons";
+import {
+  DashboardCard,
+  ErrorMessage,
+  LoadingSpinner,
+  TicketsTable,
+} from "@/components";
+import {
+  AverageTimeIcon,
+  InProgressIcon,
+  OpenTicketsIcon,
+  ResolvedTodayIcon,
+  SearchIcon,
+} from "@/components/ui/Icons";
+import { useTicketFilters } from "@/hooks/useTicketFilters";
 import { useTickets } from "@/hooks/useTickets";
 
 export default function Dashboard() {
-  const { tickets, loading, error, refetch } = useTickets();
+  const { tickets, details, loading, error, refetch } = useTickets();
+  const { filters, filteredTickets, updateFilter } = useTicketFilters(tickets);
 
   return (
     <div className="max-w-11/12 mx-auto gap-6 flex flex-col">
       <div className="grid grid-cols-4 gap-6">
-        <div className="bg-card-bg p-6 rounded-2xl border-border/30 border">
-          <p className="font-montserrat">Tickets Abertos</p>
-          <div className="flex items-center justify-between mt-8">
-            <b className="text-xl">16</b>
-            <CalculatorIcon />
-          </div>
-        </div>
-        <div className="bg-card-bg p-6 rounded-2xl border-border/30 border">
-          <p className="font-montserrat">Tickets Abertos</p>
-          <div className="flex items-center justify-between mt-8">
-            <b className="text-xl">16</b>
-            <CalculatorIcon />
-          </div>
-        </div>
-        <div className="bg-card-bg p-6 rounded-2xl border-border/30 border">
-          <p className="font-montserrat">Tickets Abertos</p>
-          <div className="flex items-center justify-between mt-8">
-            <b className="text-xl">16</b>
-            <CalculatorIcon />
-          </div>
-        </div>
-        <div className="bg-card-bg p-6 rounded-2xl border-border/30 border">
-          <p className="font-montserrat">Tickets Abertos</p>
-          <div className="flex items-center justify-between mt-8">
-            <b className="text-xl">16</b>
-            <CalculatorIcon />
-          </div>
-        </div>
+        <DashboardCard
+          title="Tickets Abertos"
+          value={details?.opensCount.toString() || "0"}
+          icon={<OpenTicketsIcon />}
+        />
+        <DashboardCard
+          title="Em andamento"
+          value={details?.inProgressCount.toString() || "0"}
+          icon={<InProgressIcon />}
+        />
+        <DashboardCard
+          title="Resolvidos hoje"
+          value={details?.resolvedTodayCount.toString() || "0"}
+          icon={<ResolvedTodayIcon />}
+        />
+        <DashboardCard
+          title="Tempo Médio"
+          value="16h"
+          icon={<AverageTimeIcon />}
+        />
       </div>
 
       <div className="bg-card-bg rounded-2xl border-border/30 border p-6">
@@ -48,33 +53,44 @@ export default function Dashboard() {
             <input
               type="text"
               placeholder="Buscar por ID, cliente ou assunto..."
-              className="bg-transparent border-none outline-none placeholder-gray-400"
+              className="bg-transparent border-none outline-none placeholder-gray-400 w-full"
+              value={filters.search}
+              onChange={(e) => updateFilter("search", e.target.value)}
             />
           </div>
 
           <div className="bg-dashboard flex items-center gap-3 px-4 py-3 rounded-full">
-            <select className="bg-transparent border-none outline-none text-gray-400 cursor-pointer">
+            <select
+              className="bg-transparent border-none outline-none text-gray-400 cursor-pointer"
+              value={filters.status}
+              onChange={(e) => updateFilter("status", e.target.value)}
+            >
               <option value="">Todos os status</option>
               <option value="aberto">Aberto</option>
-              <option value="andamento">Em Andamento</option>
-              <option value="pendente">Pendente</option>
-              <option value="resolvido">Resolvido</option>
+              <option value="andamento">Em andamento</option>
               <option value="fechado">Fechado</option>
             </select>
           </div>
 
           <div className="bg-dashboard flex items-center gap-3 px-4 py-3 rounded-full">
-            <select className="bg-transparent border-none outline-none text-gray-400 cursor-pointer">
+            <select
+              className="bg-transparent border-none outline-none text-gray-400 cursor-pointer"
+              value={filters.priority}
+              onChange={(e) => updateFilter("priority", e.target.value)}
+            >
               <option value="">Todas as prioridades</option>
               <option value="baixa">Baixa</option>
               <option value="media">Média</option>
-              <option value="alta">Alta</option>
-              <option value="critica">Crítica</option>
+              <option value="urgente">Urgente</option>
             </select>
           </div>
 
           <div className="bg-dashboard flex items-center gap-3 px-4 py-3 rounded-full">
-            <select className="bg-transparent border-none outline-none text-gray-400 cursor-pointer">
+            <select
+              className="bg-transparent border-none outline-none text-gray-400 cursor-pointer"
+              value={filters.responsible}
+              onChange={(e) => updateFilter("responsible", e.target.value)}
+            >
               <option value="">Todos os responsáveis</option>
               <option value="joao">João Silva</option>
               <option value="maria">Maria Santos</option>
@@ -89,7 +105,7 @@ export default function Dashboard() {
         ) : error ? (
           <ErrorMessage message={error} onRetry={refetch} />
         ) : (
-          <TicketsTable tickets={tickets} />
+          <TicketsTable tickets={filteredTickets} />
         )}
       </div>
     </div>
