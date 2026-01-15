@@ -104,7 +104,22 @@ export function useTickets() {
         ...prevTickets,
       ]);
 
-      toast.success("Ticket criado com sucesso!");
+      toast.info("Ticket criado com sucesso!", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "toast-large",
+        theme: "colored",
+        style: {
+          fontSize: "18px",
+          padding: "20px",
+          minHeight: "80px",
+          width: "400px",
+        },
+      });
     } catch (err) {
       console.error("Erro ao criar ticket:", err);
       toast.error("Erro ao criar ticket. Tente novamente.");
