@@ -4,6 +4,8 @@ export { ErrorMessage, LoadingSpinner } from "./LoadingStates";
 export { Modal } from "./Modal";
 export { NewTicketForm } from "./NewTicketForm";
 export { Pagination } from "./Pagination";
+export { PlanCard } from "./PlanCard";
+export { Slider } from "./Slider";
 export { TicketsTable } from "./TicketsTable";
 export { Button } from "./ui/Button";
 export { Input } from "./ui/Input";
