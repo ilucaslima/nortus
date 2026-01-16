@@ -96,7 +96,7 @@ src/
 
 ```bash
 # Clone o repositório
-git clone <url-do-repositorio>
+git clone https://github.com/ilucaslima/nortus.git
 cd nortus/web
 
 # Instale as dependências
