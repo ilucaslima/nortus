@@ -18,6 +18,8 @@ export { OpenTicketsIcon } from "./OpenTicketsIcon";
 export { PlusIcon } from "./PlusIcon";
 export { PrevPageIcon } from "./PrevPageIcon";
 export { ResolvedTodayIcon } from "./ResolvedTodayIcon";
+export { RobotIcon } from "./RobotIcon";
 export { SearchIcon } from "./SearchIcon";
+export { SendIcon } from "./SendIcon";
 export type { IconProps } from "./types";
 export { UserIcon } from "./UserIcon";

@@ -1,3 +1,4 @@
+export * from "./chat";
 export * from "./dashboard";
 export * from "./locations";
 export * from "./tickets";
