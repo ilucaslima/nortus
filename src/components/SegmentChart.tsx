@@ -144,7 +144,7 @@ const SegmentChart = ({ segments }: SegmentChartProps) => {
   }, [segments]);
 
   return (
-    <div className="bg-gray-900 h-full rounded-2xl border border-blue-500/20 p-8 w-2/5">
+    <div className="bg-card-bg h-full rounded-2xl border border-blue-500/20 p-9 w-2/5">
       <div className="flex justify-between items-center">
         <h2 className="text-white text-2xl font-semibold">Segmentos</h2>
         <div className="text-gray-400">

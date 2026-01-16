@@ -1,5 +1,6 @@
 "use client";
 
+import { ClientMap } from "@/components";
 import KPIChart from "@/components/KPIChart";
 import SegmentChart from "@/components/SegmentChart";
 import { fetchDashboardData } from "@/services/dashboard";
@@ -68,7 +69,7 @@ const Dashboard = () => {
 
   return (
     <div className="w-full px-4 mx-auto">
-      <div className="flex w-full gap-4 justify-between">
+      <div className="flex w-full gap-4 justify-between mb-6">
         <KPIChart
           labels={data.kpisTrend.labels}
           data={getCurrentKPIData()}
@@ -83,6 +84,10 @@ const Dashboard = () => {
         />
 
         <SegmentChart segments={data.segments} />
+      </div>
+
+      <div className="w-full">
+        <ClientMap />
       </div>
     </div>
   );

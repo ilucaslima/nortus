@@ -1,3 +1,4 @@
+export { default as ClientMap } from "./ClientMap";
 export { DashboardCard } from "./DashboardCard";
 export { ErrorMessage, LoadingSpinner } from "./LoadingStates";
 export { Modal } from "./Modal";
