@@ -1,10 +1,10 @@
 import { IconProps } from "./types";
 
-export const ArrowRightIcon = ({ size = 18, className }: IconProps) => {
+export const ArrowRightIcon = ({ width = 18, className }: IconProps) => {
   return (
     <svg
-      width={size}
-      height={size}
+      width={width}
+      height={width}
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

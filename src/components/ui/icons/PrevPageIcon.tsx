@@ -1,9 +1,9 @@
 import { IconProps } from "./types";
 
-export const PrevPageIcon = ({ size = 32, className }: IconProps) => {
+export const PrevPageIcon = ({ width = 32, className }: IconProps) => {
   return (
     <svg
-      width={size}
+      width={width}
       height="28"
       viewBox="0 0 32 28"
       fill="none"

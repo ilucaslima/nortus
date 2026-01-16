@@ -1,10 +1,10 @@
 import { IconProps } from "./types";
 
-export const ChevronDownIcon = ({ size = 20, className }: IconProps) => {
+export const ChevronDownIcon = ({ width = 20, className }: IconProps) => {
   return (
     <svg
-      width={size}
-      height={size}
+      width={width}
+      height={width}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

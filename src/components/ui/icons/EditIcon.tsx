@@ -1,10 +1,10 @@
 import { IconProps } from "./types";
 
-export const EditIcon = ({ size = 16, className }: IconProps) => {
+export const EditIcon = ({ width = 16, className }: IconProps) => {
   return (
     <svg
-      width={size}
-      height={size}
+      width={width}
+      height={width}
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
