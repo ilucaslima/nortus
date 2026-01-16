@@ -1,36 +1,174 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Nortus - Sistema de Gestão e Dashboard
 
-## Getting Started
+Uma aplicação web moderna desenvolvida em **Next.js 16** e **TypeScript** para gerenciamento de tickets, dashboard analítico e simulação de seguros.
 
-First, run the development server:
+## ✨ Principais Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 🔐 **Sistema de Autenticação**
+
+- Login seguro com validação de formulários
+- Gerenciamento de tokens JWT com cookies
+- Páginas de registro de novos usuários
+
+### 📊 **Dashboard Analítico**
+
+- **KPIs em tempo real**: ARPU, Churn Rate, LTV e outras métricas importantes
+- **Gráficos interativos** com ApexCharts
+- **Segmentação de dados** por diferentes critérios
+- **Mapa de clientes** integrado com OpenLayers
+- Interface responsiva e moderna
+
+### 🎫 **Gestão de Tickets**
+
+- Sistema completo de gerenciamento de tickets
+- Filtros avançados e paginação
+- Estados personalizáveis (aberto, em progresso, resolvido)
+- Formulário de criação de novos tickets
+- Tabelas otimizadas para grandes volumes de dados
+
+### 🤖 **Chat Assistente**
+
+- Interface de chat intuitiva
+- Integração com sistema de mensagens
+- Suporte a envio de mensagens em tempo real
+- Design moderno com componentes personalizados
+
+### 🧮 **Simulador de Seguros**
+
+- Simulação interativa de planos de seguro
+- Sliders para ajuste de valor do veículo e idade
+- Coberturas adicionais personalizáveis
+- Sistema de recomendação inteligente
+- Cálculo dinâmico de preços
+
+## 🛠️ **Stack Tecnológica**
+
+### **Frontend**
+
+- **Next.js 16** - Framework React com SSR
+- **React 19** - Biblioteca para interfaces
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS v4** - Framework CSS utilitário
+
+### **Bibliotecas & Ferramentas**
+
+- **React Hook Form** + **Zod** - Validação de formulários
+- **ApexCharts** - Gráficos e visualizações
+- **OpenLayers** - Mapas interativos
+- **Axios** - Cliente HTTP
+- **React Toastify** - Notificações
+- **js-cookie** - Gerenciamento de cookies
+
+### **Desenvolvimento**
+
+- **ESLint** - Linting de código
+- **PostCSS** - Processamento de CSS
+- **Yarn** - Gerenciador de pacotes
+
+## 📁 **Estrutura do Projeto**
+
+```
+src/
+├── app/                    # App Router (Next.js 16)
+│   ├── dashboard/         # Área principal do sistema
+│   │   ├── chat-assistente/
+│   │   ├── gestao-tickets/
+│   │   └── simulador/
+│   └── registro/          # Sistema de cadastro
+├── components/            # Componentes reutilizáveis
+│   └── ui/               # Componentes base da UI
+├── hooks/                # Custom hooks React
+├── services/             # Serviços e API calls
+├── types/                # Definições TypeScript
+├── schemas/              # Schemas de validação (Zod)
+├── utils/                # Funções utilitárias
+└── data/                 # Dados mock para desenvolvimento
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 **Como Executar**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **Pré-requisitos**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 18+
+- Yarn ou npm
 
-## Learn More
+### **Instalação**
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Clone o repositório
+git clone <url-do-repositorio>
+cd nortus/web
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Instale as dependências
+yarn install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Execute em modo de desenvolvimento
+yarn dev
+```
 
-## Deploy on Vercel
+### **Scripts Disponíveis**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+yarn dev      # Servidor de desenvolvimento
+yarn build    # Build de produção
+yarn start    # Servidor de produção
+yarn lint     # Verificação de código
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 **Características da UI**
+
+### **Design System**
+
+- **Tema escuro** moderno e profissional
+- **Tipografia** customizada (Space Grotesk, Inter, Montserrat)
+- **Componentes** padronizados e reutilizáveis
+- **Ícones** personalizados e otimizados
+
+### **Responsividade**
+
+- Layout adaptável para desktop, tablet e mobile
+- Grid system flexível
+- Componentes otimizados para diferentes telas
+
+## 🔧 **Recursos Técnicos**
+
+### **State Management**
+
+- Hooks personalizados para lógica de negócio
+- Context API para estados globais
+- Gerenciamento local com useState/useEffect
+
+### **Performance**
+
+- **Lazy loading** de componentes
+- **Memoização** de cálculos pesados
+- **Otimizações** do Next.js (SSR, Image Optimization)
+
+### **Validação & Segurança**
+
+- Validação client-side com **Zod**
+- Sanitização de dados de entrada
+- Autenticação via **JWT tokens**
+
+## 📱 **Funcionalidades por Página**
+
+| Página                       | Funcionalidade                    |
+| ---------------------------- | --------------------------------- |
+| `/`                          | Login e autenticação              |
+| `/registro`                  | Cadastro de novos usuários        |
+| `/dashboard`                 | Visão geral com KPIs e métricas   |
+| `/dashboard/gestao-tickets`  | Gerenciamento completo de tickets |
+| `/dashboard/chat-assistente` | Interface de chat com assistente  |
+| `/dashboard/simulador`       | Simulação de planos de seguro     |
+
+## 🤝 **Contribuição**
+
+Este projeto segue boas práticas de desenvolvimento:
+
+- **TypeScript** para tipagem segura
+- **ESLint** para qualidade de código
+- **Componentes** modulares e reutilizáveis
+- **Hooks personalizados** para lógica compartilhada
+- **Padrões** de nomenclatura consistentes
+
+---
