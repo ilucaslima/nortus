@@ -9,7 +9,7 @@ import {
   PlusIcon,
 } from "@/components/ui/Icons";
 import { useTickets } from "@/hooks/useTickets";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Dashboard from "./page";
 
 interface DashboardLayoutProps {
@@ -17,20 +17,9 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const router = useRouter();
   const pathname = usePathname();
-  const {
-    tickets,
-    details,
-    loading,
-    error,
-    refetch,
-    isModalOpen,
-    isCreating,
-    openModal,
-    closeModal,
-    createTicket,
-  } = useTickets();
+  const { isModalOpen, isCreating, openModal, closeModal, createTicket } =
+    useTickets();
 
   const menuItems = [
     { name: "Dashboard", href: "/dashboard", icon: <KpisIcon /> },
@@ -55,6 +44,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const currentItem = menuItems.find((item) => item.href === pathname);
     return currentItem ? currentItem.name : "Dashboard";
   };
+
+  const isTicketsPage = pathname === "/dashboard/gestao-tickets";
 
   return (
     <div className="min-h-screen bg-dashboard">
@@ -99,29 +90,21 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </h1>
             </div>
             <div className="flex items-center">
-              <button
-                onClick={openModal}
-                className="flex items-center gap-2 py-4 shadow-primary shadow-md bg-primary hover:bg-primary/90 text-white px-4 rounded-full font-medium"
-              >
-                <PlusIcon width={16} height={16} />
-                <p>Novo Ticket</p>
-              </button>
+              {isTicketsPage && (
+                <button
+                  onClick={openModal}
+                  className="flex items-center gap-2 py-4 shadow-primary shadow-md bg-primary hover:bg-primary/90 text-white px-4 rounded-full font-medium"
+                >
+                  <PlusIcon width={16} height={16} />
+                  <p>Novo Ticket</p>
+                </button>
+              )}
             </div>
           </div>
         </header>
 
         <main className="flex-1 p-10">
-          {pathname === "/dashboard" ? (
-            <Dashboard
-              tickets={tickets}
-              details={details}
-              loading={loading}
-              error={error}
-              refetch={refetch}
-            />
-          ) : (
-            children
-          )}
+          {pathname === "/dashboard" ? <Dashboard /> : children}
         </main>
       </div>
 

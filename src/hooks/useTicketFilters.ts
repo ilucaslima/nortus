@@ -1,5 +1,5 @@
+import { Ticket } from "@/services/tickets";
 import { useMemo, useState } from "react";
-import { Ticket } from "./useTickets";
 
 interface Filters {
   search: string;

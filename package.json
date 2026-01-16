@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "apexcharts": "^5.3.6",
     "axios": "^1.13.2",
     "js-cookie": "^3.0.5",
     "next": "16.1.1",

@@ -1,127 +1,91 @@
 "use client";
 
-import {
-  DashboardCard,
-  ErrorMessage,
-  LoadingSpinner,
-  TicketsTable,
-} from "@/components";
-import {
-  AverageTimeIcon,
-  InProgressIcon,
-  OpenTicketsIcon,
-  ResolvedTodayIcon,
-  SearchIcon,
-} from "@/components/ui/Icons";
-import { useTicketFilters } from "@/hooks/useTicketFilters";
-import { Ticket } from "@/hooks/useTickets";
+import KPIChart from "@/components/KPIChart";
+import SegmentChart from "@/components/SegmentChart";
+import { fetchDashboardData } from "@/services/dashboard";
+import { DashboardData, KPIType } from "@/types/dashboard";
+import { useEffect, useState } from "react";
 
-interface DashboardProps {
-  tickets: Ticket[];
-  details: any;
-  loading: boolean;
-  error: string | null;
-  refetch: () => void;
-}
+const Dashboard = () => {
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeKPI, setActiveKPI] = useState<KPIType>("arpu");
 
-export default function Dashboard({
-  tickets,
-  details,
-  loading,
-  error,
-  refetch,
-}: DashboardProps) {
-  const { filters, filteredTickets, updateFilter } = useTicketFilters(tickets);
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        setLoading(true);
+        const dashboardData = await fetchDashboardData();
+        setData(dashboardData);
+      } catch (err) {
+        setError("Erro ao carregar dados do dashboard");
+        console.error("Error loading dashboard data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  return (
-    <div className="max-w-11/12 mx-auto gap-6 flex flex-col">
-      <div className="grid grid-cols-4 gap-6">
-        <DashboardCard
-          title="Tickets Abertos"
-          value={details?.opensCount.toString() || "0"}
-          icon={<OpenTicketsIcon />}
-        />
-        <DashboardCard
-          title="Em andamento"
-          value={details?.inProgressCount.toString() || "0"}
-          icon={<InProgressIcon />}
-        />
-        <DashboardCard
-          title="Resolvidos hoje"
-          value={details?.resolvedTodayCount.toString() || "0"}
-          icon={<ResolvedTodayIcon />}
-        />
-        <DashboardCard
-          title="Tempo Médio"
-          value="16h"
-          icon={<AverageTimeIcon />}
-        />
+    loadDashboardData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="w-full px-4 mx-auto">
+        <div className="flex items-center justify-center h-96">
+          <div className="text-white text-xl">Carregando dashboard...</div>
+        </div>
       </div>
+    );
+  }
 
-      <div className="bg-card-bg rounded-2xl border-border/30 border p-6">
-        <p className="font-montserrat font-bold">Lista de Tickets</p>
-        <div className="flex items-center gap-4 mt-4">
-          <div className="bg-dashboard flex-1 flex items-center gap-3 px-4 py-3 rounded-full">
-            <SearchIcon />
-            <input
-              type="text"
-              placeholder="Buscar por ID, cliente ou assunto..."
-              className="bg-transparent border-none outline-none placeholder-gray-400 w-full"
-              value={filters.search}
-              onChange={(e) => updateFilter("search", e.target.value)}
-            />
-          </div>
-
-          <div className="bg-dashboard flex items-center gap-3 px-4 py-3 rounded-full">
-            <select
-              className="bg-transparent border-none outline-none text-gray-400 cursor-pointer"
-              value={filters.status}
-              onChange={(e) => updateFilter("status", e.target.value)}
-            >
-              <option value="">Todos os status</option>
-              <option value="aberto">Aberto</option>
-              <option value="andamento">Em andamento</option>
-              <option value="fechado">Fechado</option>
-            </select>
-          </div>
-
-          <div className="bg-dashboard flex items-center gap-3 px-4 py-3 rounded-full">
-            <select
-              className="bg-transparent border-none outline-none text-gray-400 cursor-pointer"
-              value={filters.priority}
-              onChange={(e) => updateFilter("priority", e.target.value)}
-            >
-              <option value="">Todas as prioridades</option>
-              <option value="Baixa">Baixa</option>
-              <option value="Média">Média</option>
-              <option value="Alta">Alta</option>
-              <option value="Urgente">Urgente</option>
-            </select>
-          </div>
-
-          <div className="bg-dashboard flex items-center gap-3 px-4 py-3 rounded-full">
-            <select
-              className="bg-transparent border-none outline-none text-gray-400 cursor-pointer"
-              value={filters.responsible}
-              onChange={(e) => updateFilter("responsible", e.target.value)}
-            >
-              <option value="">Todos os responsáveis</option>
-              <option value="joao">João Silva</option>
-              <option value="maria">Maria Santos</option>
-              <option value="pedro">Pedro Costa</option>
-              <option value="ana">Ana Oliveira</option>
-            </select>
+  if (error || !data) {
+    return (
+      <div className="w-full px-4 mx-auto">
+        <div className="flex items-center justify-center h-96">
+          <div className="text-red-500 text-xl">
+            {error || "Erro ao carregar dados"}
           </div>
         </div>
+      </div>
+    );
+  }
 
-        {loading ? (
-          <LoadingSpinner />
-        ) : error ? (
-          <ErrorMessage message={error} onRetry={refetch} />
-        ) : (
-          <TicketsTable tickets={filteredTickets} />
-        )}
+  const getCurrentKPIData = () => {
+    switch (activeKPI) {
+      case "arpu":
+        return data.kpisTrend.arpuTrend.data;
+      case "conversion":
+        return data.kpisTrend.conversionTrend.data;
+      case "churn":
+        return data.kpisTrend.churnTrend.data;
+      case "retention":
+        return data.kpisTrend.retentionTrend.data;
+      default:
+        return data.kpisTrend.arpuTrend.data;
+    }
+  };
+
+  return (
+    <div className="w-full px-4 mx-auto">
+      <div className="flex w-full gap-4 justify-between">
+        <KPIChart
+          labels={data.kpisTrend.labels}
+          data={getCurrentKPIData()}
+          activeKPI={activeKPI}
+          onKPIChange={setActiveKPI}
+          kpisData={{
+            arpu: data.kpisTrend.arpuTrend,
+            conversion: data.kpisTrend.conversionTrend,
+            churn: data.kpisTrend.churnTrend,
+            retention: data.kpisTrend.retentionTrend,
+          }}
+        />
+
+        <SegmentChart segments={data.segments} />
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;

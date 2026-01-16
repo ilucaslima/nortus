@@ -1,30 +1,12 @@
-import { useEffect, useState } from "react";
-
-import { api } from "@/config/api";
-
 import { NewTicketFormData } from "@/schemas";
-import Cookies from "js-cookie";
+import {
+  createTicket,
+  fetchTickets,
+  Ticket,
+  TicketDetail,
+} from "@/services/tickets";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-export interface Ticket {
-  id: string;
-  ticketId: string;
-  subject: string;
-  client: string;
-  email: string;
-  responsible: string;
-  priority: "Baixa" | "Média" | "Alta" | "Urgente";
-  status: "Aberto" | "Em andamento" | "Fechado";
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface TicketDetail {
-  opensCount: number;
-  inProgressCount: number;
-  averageResolutionTime: string;
-  resolvedTodayCount: number;
-}
 
 export function useTickets() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -35,34 +17,14 @@ export function useTickets() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
 
-  async function fetchTickets() {
+  async function loadTickets() {
     try {
       setLoading(true);
       setError(null);
-      const token = Cookies.get("auth-token") || "";
-      const response = await api.get("/tickets", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      setTickets(response.data.data);
-
-      const detailsTickets = {
-        opensCount: response.data.data.filter(
-          (ticket: Ticket) => ticket.status === "Aberto"
-        ).length,
-        inProgressCount: response.data.data.filter(
-          (ticket: Ticket) => ticket.status === "Em andamento"
-        ).length,
-        averageResolutionTime: "2.5h",
-        resolvedTodayCount: response.data.data.filter(
-          (ticket: Ticket) =>
-            ticket.status === "Fechado" &&
-            ticket.updatedAt === new Date().toISOString()
-        ).length,
-      };
-      setDetails(detailsTickets);
+      const result = await fetchTickets();
+      setTickets(result.data);
+      setDetails(result.details);
     } catch (err) {
       setError("Erro ao carregar tickets");
       console.error("Erro ao buscar tickets:", err);
@@ -71,38 +33,14 @@ export function useTickets() {
     }
   }
 
-  async function createTicket(data: NewTicketFormData) {
+  async function handleCreateTicket(data: NewTicketFormData) {
     setIsCreating(true);
 
     try {
-      const token = Cookies.get("auth-token") || "";
-
-      const ticketId = `TK${Date.now()}`;
-
-      const ticketData = {
-        ...data,
-        ticketId: `TK${ticketId.slice(-4)}`,
-        client: data.clientName,
-        status: "Aberto" as const,
-      };
-
-      await api.post("/tickets", ticketData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const newTicket = await createTicket(data);
 
       setIsModalOpen(false);
-      setTickets((prevTickets) => [
-        {
-          ...ticketData,
-          id: String(prevTickets.length + 1),
-          status: "Aberto",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        ...prevTickets,
-      ]);
+      setTickets((prevTickets) => [newTicket, ...prevTickets]);
 
       toast.info("Ticket criado com sucesso!", {
         position: "bottom-center",
@@ -132,7 +70,7 @@ export function useTickets() {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    fetchTickets();
+    loadTickets();
   }, []);
 
   return {
@@ -140,12 +78,15 @@ export function useTickets() {
     details,
     loading,
     error,
-    refetch: () => fetchTickets(),
+    refetch: () => loadTickets(),
 
     isModalOpen,
     isCreating,
     openModal,
     closeModal,
-    createTicket,
+    createTicket: handleCreateTicket,
   };
 }
+
+// Re-exportar tipos para compatibilidade
+export type { Ticket, TicketDetail };

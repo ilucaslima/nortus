@@ -1,6 +1,6 @@
 import { ArrowRightIcon, EditIcon } from "@/components/ui/Icons";
 import { usePagination } from "@/hooks/usePagination";
-import { Ticket } from "@/hooks/useTickets";
+import { Ticket } from "@/services/tickets";
 import { formatDate } from "@/utils/format";
 import { Pagination } from "./Pagination";
 
